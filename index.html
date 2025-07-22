@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convocore Demo Tools</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .tool-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .tool-card h3 {
+            color: #4a5568;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .tool-card p {
+            color: #718096;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .form-group select,
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .form-group select:focus,
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .result-section {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .agent-config {
+            background: #edf2f7;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .agent-config h4 {
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            background: #e6fffa;
+            padding: 8px 12px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border-left: 4px solid #38b2ac;
+        }
+
+        .cost-breakdown {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .cost-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #e2e8f0;
+        }
+
+        .cost-item .amount {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .cost-item .label {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+
+        .checklist li {
+            padding: 10px;
+            margin: 5px 0;
+            background: #f0fff4;
+            border-radius: 5px;
+            border-left: 4px solid #48bb78;
+        }
+
+        .checklist li:before {
+            content: "✓ ";
+            color: #48bb78;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                width: 95%;
+                margin: 10% auto;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 Convocore Demo Tools</h1>
+            <p>Comprehensive toolkit for building and deploying AI agents</p>
+        </div>
+
+        <div class="tools-grid">
+            <div class="tool-card">
+                <h3>🎯 Sample Agent Configurations</h3>
+                <p>Explore pre-built agent templates for different industries and use cases including customer service, sales, and technical support.</p>
+                <button class="btn" onclick="showSampleAgents()">View Sample Agents</button>
+            </div>
+
+            <div class="tool-card">
+                <h3>📚 Knowledge Base Generator</h3>
+                <p>Generate sample knowledge base content tailored to your industry and use case to jumpstart your agent's training.</p>
+                <button class="btn" onclick="showKnowledgeGenerator()">Generate Knowledge Base</button>
+            </div>
+
+            <div class="tool-card">
+                <h3>🔄 Conversation Flow Templates</h3>
+                <p>Access proven conversation flow patterns for common scenarios like greetings, escalations, and data collection.</p>
+                <button class="btn" onclick="showConversationFlows()">View Flow Templates</button>
+            </div>
+
+            <div class="tool-card">
+                <h3>✅ Deployment Checklist</h3>
+                <p>Get a customized deployment checklist based on your selected channels and features to ensure smooth launches.</p>
+                <button class="btn" onclick="showDeploymentChecklist()">Create Checklist</button>
+            </div>
+
+            <div class="tool-card">
+                <h3>📊 Analytics Dashboard</h3>
+                <p>View sample analytics and KPIs to understand how to measure and optimize your agent's performance.</p>
+                <button class="btn" onclick="showAnalytics()">View Analytics</button>
+            </div>
+
+            <div class="tool-card">
+                <h3>💰 Cost Calculator</h3>
+                <p>Estimate your monthly costs based on expected usage, channels, and features to plan your budget effectively.</p>
+                <button class="btn" onclick="showCostCalculator()">Calculate Costs</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <script>
+        function showModal(content) {
+            document.getElementById('modal-body').innerHTML = content;
+            document.getElementById('modal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        async function showSampleAgents() {
+            try {
+                const response = await fetch('/api/convocore/agents/samples');
+                const agents = await response.json();
+                
+                let content = '<h2>Sample Agent Configurations</h2>';
+                
+                for (const [key, agent] of Object.entries(agents)) {
+                    content += `
+                        <div class="agent-config">
+                            <h4>${agent.name}</h4>
+                            <p><strong>Description:</strong> ${agent.description}</p>
+                            <p><strong>Personality:</strong> ${agent.personality.tone}, ${agent.personality.style}, ${agent.personality.formality}</p>
+                            <p><strong>Channels:</strong> ${agent.channels.join(', ')}</p>
+                            <p><strong>Key Features:</strong></p>
+                            <ul class="feature-list">
+                                ${agent.features.map(feature => `<li>${feature}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                }
+                
+                showModal(content);
+            } catch (error) {
+                showModal('<h2>Error</h2><p>Failed to load sample agents.</p>');
+            }
+        }
+
+        async function showKnowledgeGenerator() {
+            const content = `
+                <h2>Knowledge Base Generator</h2>
+                <div class="form-group">
+                    <label for="industry">Industry:</label>
+                    <select id="industry">
+                        <option value="ecommerce">E-commerce</option>
+                        <option value="healthcare">Healthcare</option>
+                        <option value="saas">SaaS/Technology</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="useCase">Use Case:</label>
+                    <select id="useCase">
+                        <option value="customer_service">Customer Service</option>
+                        <option value="sales">Sales</option>
+                        <option value="technical_support">Technical Support</option>
+                        <option value="appointment_booking">Appointment Booking</option>
+                    </select>
+                </div>
+                <button class="btn" onclick="generateKnowledgeBase()">Generate Knowledge Base</button>
+                <div id="kb-result"></div>
+            `;
+            showModal(content);
+        }
+
+        async function generateKnowledgeBase() {
+            const industry = document.getElementById('industry').value;
+            const useCase = document.getElementById('useCase').value;
+            
+            try {
+                const response = await fetch('/api/convocore/knowledge-base/generator', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ industry, use_case: useCase })
+                });
+                
+                const result = await response.json();
+                
+                const resultHtml = `
+                    <div class="result-section">
+                        <h3>Generated Knowledge Base for ${result.industry} - ${result.use_case}</h3>
+                        <ul class="feature-list">
+                            ${result.knowledge_items.map(item => `<li>${item}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+                
+                document.getElementById('kb-result').innerHTML = resultHtml;
+            } catch (error) {
+                document.getElementById('kb-result').innerHTML = '<p>Error generating knowledge base.</p>';
+            }
+        }
+
+        async function showConversationFlows() {
+            try {
+                const response = await fetch('/api/convocore/conversation-flows/templates');
+                const templates = await response.json();
+                
+                let content = '<h2>Conversation Flow Templates</h2>';
+                
+                for (const [key, template] of Object.entries(templates)) {
+                    content += `
+                        <div class="agent-config">
+                            <h4>${template.name}</h4>
+                            <p>${template.description}</p>
+                            <p><strong>Nodes:</strong> ${template.nodes.length} steps</p>
+                            <ul class="feature-list">
+                                ${template.nodes.map(node => `<li>${node.type}: ${node.content || node.prompt || node.action || 'Logic node'}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                }
+                
+                showModal(content);
+            } catch (error) {
+                showModal('<h2>Error</h2><p>Failed to load conversation templates.</p>');
+            }
+        }
+
+        async function showDeploymentChecklist() {
+            const content = `
+                <h2>Deployment Checklist Generator</h2>
+                <div class="form-group">
+                    <label for="channels">Select Channels:</label>
+                    <select id="channels" multiple style="height: 120px;">
+                        <option value="web_chat">Web Chat</option>
+                        <option value="whatsapp">WhatsApp</option>
+                        <option value="phone">Phone</option>
+                        <option value="facebook">Facebook Messenger</option>
+                        <option value="instagram">Instagram</option>
+                        <option value="discord">Discord</option>
+                    </select>
+                    <small>Hold Ctrl/Cmd to select multiple</small>
+                </div>
+                <div class="form-group">
+                    <label for="features">Select Features:</label>
+                    <select id="features" multiple style="height: 120px;">
+                        <option value="live_handoff">Live Agent Handoff</option>
+                        <option value="calendar_integration">Calendar Integration</option>
+                        <option value="payment_processing">Payment Processing</option>
+                        <option value="crm_integration">CRM Integration</option>
+                    </select>
+                    <small>Hold Ctrl/Cmd to select multiple</small>
+                </div>
+                <button class="btn" onclick="generateChecklist()">Generate Checklist</button>
+                <div id="checklist-result"></div>
+            `;
+            showModal(content);
+        }
+
+        async function generateChecklist() {
+            const channelsSelect = document.getElementById('channels');
+            const featuresSelect = document.getElementById('features');
+            
+            const channels = Array.from(channelsSelect.selectedOptions).map(option => option.value);
+            const features = Array.from(featuresSelect.selectedOptions).map(option => option.value);
+            
+            try {
+                const response = await fetch('/api/convocore/deployment/checklist', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ channels, features })
+                });
+                
+                const checklist = await response.json();
+                
+                let resultHtml = '<div class="result-section"><h3>Deployment Checklist</h3>';
+                
+                if (checklist.pre_deployment.length > 0) {
+                    resultHtml += '<h4>Pre-Deployment</h4><ul class="checklist">';
+                    checklist.pre_deployment.forEach(item => {
+                        resultHtml += `<li>${item}</li>`;
+                    });
+                    resultHtml += '</ul>';
+                }
+                
+                if (checklist.channel_specific.length > 0) {
+                    resultHtml += '<h4>Channel-Specific Tasks</h4><ul class="checklist">';
+                    checklist.channel_specific.forEach(item => {
+                        resultHtml += `<li>${item}</li>`;
+                    });
+                    resultHtml += '</ul>';
+                }
+                
+                if (checklist.feature_specific.length > 0) {
+                    resultHtml += '<h4>Feature-Specific Tasks</h4><ul class="checklist">';
+                    checklist.feature_specific.forEach(item => {
+                        resultHtml += `<li>${item}</li>`;
+                    });
+                    resultHtml += '</ul>';
+                }
+                
+                if (checklist.post_deployment.length > 0) {
+                    resultHtml += '<h4>Post-Deployment</h4><ul class="checklist">';
+                    checklist.post_deployment.forEach(item => {
+                        resultHtml += `<li>${item}</li>`;
+                    });
+                    resultHtml += '</ul>';
+                }
+                
+                resultHtml += '</div>';
+                
+                document.getElementById('checklist-result').innerHTML = resultHtml;
+            } catch (error) {
+                document.getElementById('checklist-result').innerHTML = '<p>Error generating checklist.</p>';
+            }
+        }
+
+        async function showAnalytics() {
+            try {
+                const response = await fetch('/api/convocore/analytics/metrics');
+                const metrics = await response.json();
+                
+                let content = `
+                    <h2>Sample Analytics Dashboard</h2>
+                    <div class="result-section">
+                        <h3>Conversation Metrics</h3>
+                        <div class="cost-breakdown">
+                            <div class="cost-item">
+                                <div class="amount">${metrics.conversation_metrics.total_conversations}</div>
+                                <div class="label">Total Conversations</div>
+                            </div>
+                            <div class="cost-item">
+                                <div class="amount">${metrics.conversation_metrics.completion_rate}%</div>
+                                <div class="label">Completion Rate</div>
+                            </div>
+                            <div class="cost-item">
+                                <div class="amount">${metrics.conversation_metrics.average_duration}</div>
+                                <div class="label">Avg Duration</div>
+                            </div>
+                            <div class="cost-item">
+                                <div class="amount">${metrics.conversation_metrics.user_satisfaction}/5</div>
+                                <div class="label">User Satisfaction</div>
+                            </div>
+                        </div>
+                        
+                        <h3>Top Intents</h3>
+                        <ul class="feature-list">
+                            ${metrics.top_intents.map(intent => 
+                                `<li>${intent.intent}: ${intent.count} queries (${intent.success_rate}% success)</li>`
+                            ).join('')}
+                        </ul>
+                        
+                        <h3>Knowledge Base Usage</h3>
+                        <p><strong>Most Accessed:</strong> ${metrics.knowledge_base_usage.most_accessed.join(', ')}</p>
+                        <p><strong>Gaps Identified:</strong> ${metrics.knowledge_base_usage.gaps_identified.join(', ')}</p>
+                    </div>
+                `;
+                
+                showModal(content);
+            } catch (error) {
+                showModal('<h2>Error</h2><p>Failed to load analytics data.</p>');
+            }
+        }
+
+        async function showCostCalculator() {
+            const content = `
+                <h2>Cost Calculator</h2>
+                <div class="form-group">
+                    <label for="conversations">Monthly Conversations:</label>
+                    <input type="number" id="conversations" value="1000" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="voiceMinutes">Voice Minutes per Month:</label>
+                    <input type="number" id="voiceMinutes" value="0" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="kbSize">Knowledge Base Size (characters):</label>
+                    <input type="number" id="kbSize" value="10000" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="channelCount">Number of Channels:</label>
+                    <input type="number" id="channelCount" value="2" min="1" max="10">
+                </div>
+                <button class="btn" onclick="calculateCosts()">Calculate Costs</button>
+                <div id="cost-result"></div>
+            `;
+            showModal(content);
+        }
+
+        async function calculateCosts() {
+            const conversations = parseInt(document.getElementById('conversations').value);
+            const voiceMinutes = parseInt(document.getElementById('voiceMinutes').value);
+            const kbSize = parseInt(document.getElementById('kbSize').value);
+            const channelCount = parseInt(document.getElementById('channelCount').value);
+            
+            const channels = Array(channelCount).fill('web_chat'); // Simplified for demo
+            
+            try {
+                const response = await fetch('/api/convocore/cost-calculator', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        monthly_conversations: conversations,
+                        voice_minutes: voiceMinutes,
+                        knowledge_base_size: kbSize,
+                        channels: channels
+                    })
+                });
+                
+                const costs = await response.json();
+                
+                const resultHtml = `
+                    <div class="result-section">
+                        <h3>Monthly Cost Breakdown</h3>
+                        <div class="cost-breakdown">
+                            <div class="cost-item">
+                                <div class="amount">$${costs.base_plan}</div>
+                                <div class="label">Base Plan</div>
+                            </div>
+                            <div class="cost-item">
+                                <div class="amount">$${costs.conversations.toFixed(2)}</div>
+                                <div class="label">Conversations</div>
+                            </div>
+                            <div class="cost-item">
+                                <div class="amount">$${costs.voice_minutes.toFixed(2)}</div>
+                                <div class="label">Voice Minutes</div>
+                            </div>
+                            <div class="cost-item">
+                                <div class="amount">$${costs.knowledge_base.toFixed(2)}</div>
+                                <div class="label">Knowledge Base</div>
+                            </div>
+                            <div class="cost-item">
+                                <div class="amount">$${costs.channels.toFixed(2)}</div>
+                                <div class="label">Channels</div>
+                            </div>
+                            <div class="cost-item" style="border: 2px solid #667eea;">
+                                <div class="amount">$${costs.total_monthly}</div>
+                                <div class="label">Total Monthly</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                document.getElementById('cost-result').innerHTML = resultHtml;
+            } catch (error) {
+                document.getElementById('cost-result').innerHTML = '<p>Error calculating costs.</p>';
+            }
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('modal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
+

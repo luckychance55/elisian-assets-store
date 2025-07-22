@@ -1,0 +1,423 @@
+{
+  "customer_service_ecommerce": {
+    "agent_name": "ShopBot Assistant",
+    "description": "Comprehensive customer service agent for e-commerce platform",
+    "personality": {
+      "tone": "friendly",
+      "style": "helpful",
+      "formality": "casual",
+      "empathy_level": "high"
+    },
+    "knowledge_base": {
+      "sources": [
+        {
+          "type": "url",
+          "content": "https://example-store.com/help",
+          "description": "Main help center"
+        },
+        {
+          "type": "document",
+          "content": "return_policy.pdf",
+          "description": "Return and refund policies"
+        },
+        {
+          "type": "direct_input",
+          "content": "Product catalog with 500+ items including electronics, clothing, and home goods",
+          "description": "Product information"
+        }
+      ],
+      "categories": [
+        "Order Management",
+        "Shipping & Delivery",
+        "Returns & Refunds",
+        "Product Information",
+        "Account Support"
+      ]
+    },
+    "conversation_flows": {
+      "greeting": {
+        "message": "Hi there! I'm ShopBot, your personal shopping assistant. How can I help you today?",
+        "quick_replies": [
+          "Track my order",
+          "Return an item",
+          "Product questions",
+          "Account help"
+        ]
+      },
+      "order_tracking": {
+        "steps": [
+          "Ask for order number or email",
+          "Validate order information",
+          "Provide tracking details",
+          "Offer additional assistance"
+        ]
+      },
+      "escalation": {
+        "triggers": [
+          "Complex technical issues",
+          "Billing disputes",
+          "User requests human agent"
+        ],
+        "message": "I'll connect you with one of our human specialists who can better assist you with this."
+      }
+    },
+    "integrations": [
+      {
+        "type": "order_management_system",
+        "purpose": "Real-time order tracking"
+      },
+      {
+        "type": "crm",
+        "purpose": "Customer history and preferences"
+      },
+      {
+        "type": "inventory_system",
+        "purpose": "Product availability"
+      }
+    ],
+    "channels": [
+      {
+        "type": "web_chat",
+        "settings": {
+          "proactive_greeting": true,
+          "typing_indicators": true,
+          "file_upload": true
+        }
+      },
+      {
+        "type": "whatsapp",
+        "settings": {
+          "business_profile": true,
+          "rich_media": true,
+          "quick_replies": true
+        }
+      },
+      {
+        "type": "email",
+        "settings": {
+          "auto_response": true,
+          "ticket_creation": true
+        }
+      }
+    ]
+  },
+  "appointment_scheduler_healthcare": {
+    "agent_name": "MedScheduler",
+    "description": "Automated appointment booking for healthcare practice",
+    "personality": {
+      "tone": "professional",
+      "style": "efficient",
+      "formality": "formal",
+      "empathy_level": "medium"
+    },
+    "knowledge_base": {
+      "sources": [
+        {
+          "type": "direct_input",
+          "content": "Available services: General consultation, Specialist referrals, Preventive care, Emergency appointments",
+          "description": "Service offerings"
+        },
+        {
+          "type": "document",
+          "content": "insurance_accepted.pdf",
+          "description": "Insurance providers accepted"
+        },
+        {
+          "type": "url",
+          "content": "https://clinic.com/preparation-instructions",
+          "description": "Appointment preparation guidelines"
+        }
+      ],
+      "categories": [
+        "Appointment Booking",
+        "Insurance & Billing",
+        "Preparation Instructions",
+        "Location & Parking",
+        "Cancellation Policies"
+      ]
+    },
+    "conversation_flows": {
+      "greeting": {
+        "message": "Hello! I'm MedScheduler. I can help you book, reschedule, or cancel appointments. What would you like to do?",
+        "quick_replies": [
+          "Book new appointment",
+          "Reschedule existing",
+          "Cancel appointment",
+          "Check availability"
+        ]
+      },
+      "booking_flow": {
+        "steps": [
+          "Collect patient information",
+          "Determine appointment type",
+          "Check insurance coverage",
+          "Show available slots",
+          "Confirm booking details",
+          "Send confirmation"
+        ]
+      },
+      "emergency_routing": {
+        "triggers": [
+          "Emergency keywords",
+          "Urgent care requests"
+        ],
+        "message": "For medical emergencies, please call 911 or visit the nearest emergency room. For urgent care, I can help you find the next available appointment."
+      }
+    },
+    "integrations": [
+      {
+        "type": "calendar_system",
+        "purpose": "Real-time availability and booking"
+      },
+      {
+        "type": "patient_management",
+        "purpose": "Patient records and history"
+      },
+      {
+        "type": "insurance_verification",
+        "purpose": "Coverage validation"
+      },
+      {
+        "type": "sms_notifications",
+        "purpose": "Appointment reminders"
+      }
+    ],
+    "channels": [
+      {
+        "type": "phone",
+        "settings": {
+          "voice_recognition": true,
+          "call_recording": true,
+          "hold_music": true
+        }
+      },
+      {
+        "type": "web_chat",
+        "settings": {
+          "secure_forms": true,
+          "hipaa_compliant": true
+        }
+      },
+      {
+        "type": "sms",
+        "settings": {
+          "two_way_messaging": true,
+          "appointment_reminders": true
+        }
+      }
+    ]
+  },
+  "sales_assistant_saas": {
+    "agent_name": "SalesGenie",
+    "description": "Lead qualification and sales support for SaaS platform",
+    "personality": {
+      "tone": "enthusiastic",
+      "style": "consultative",
+      "formality": "business_casual",
+      "empathy_level": "medium"
+    },
+    "knowledge_base": {
+      "sources": [
+        {
+          "type": "url",
+          "content": "https://saas-platform.com/features",
+          "description": "Product features and capabilities"
+        },
+        {
+          "type": "document",
+          "content": "pricing_guide.pdf",
+          "description": "Pricing plans and comparisons"
+        },
+        {
+          "type": "direct_input",
+          "content": "ROI calculator: Average customer sees 300% ROI within 6 months",
+          "description": "Value proposition data"
+        }
+      ],
+      "categories": [
+        "Product Features",
+        "Pricing & Plans",
+        "Integration Capabilities",
+        "Security & Compliance",
+        "Customer Success Stories"
+      ]
+    },
+    "conversation_flows": {
+      "greeting": {
+        "message": "Hi! I'm SalesGenie, your AI sales assistant. I'd love to learn about your business needs and show you how our platform can help. What brings you here today?",
+        "quick_replies": [
+          "Learn about features",
+          "See pricing",
+          "Book a demo",
+          "Compare plans"
+        ]
+      },
+      "qualification_flow": {
+        "steps": [
+          "Identify company size",
+          "Understand current challenges",
+          "Assess budget range",
+          "Determine decision timeline",
+          "Qualify decision makers"
+        ]
+      },
+      "demo_booking": {
+        "conditions": [
+          "Qualified lead",
+          "Expressed interest",
+          "Appropriate company size"
+        ],
+        "message": "Based on what you've told me, I think a personalized demo would be perfect. Let me connect you with one of our solution specialists."
+      }
+    },
+    "integrations": [
+      {
+        "type": "crm",
+        "purpose": "Lead capture and scoring"
+      },
+      {
+        "type": "calendar_system",
+        "purpose": "Demo scheduling"
+      },
+      {
+        "type": "marketing_automation",
+        "purpose": "Lead nurturing sequences"
+      },
+      {
+        "type": "analytics_platform",
+        "purpose": "Conversion tracking"
+      }
+    ],
+    "channels": [
+      {
+        "type": "web_chat",
+        "settings": {
+          "lead_capture_forms": true,
+          "screen_sharing": true,
+          "co_browsing": true
+        }
+      },
+      {
+        "type": "linkedin",
+        "settings": {
+          "social_selling": true,
+          "lead_generation": true
+        }
+      },
+      {
+        "type": "email",
+        "settings": {
+          "drip_campaigns": true,
+          "personalization": true
+        }
+      }
+    ]
+  },
+  "technical_support_software": {
+    "agent_name": "TechSupport Pro",
+    "description": "Advanced technical troubleshooting for software platform",
+    "personality": {
+      "tone": "knowledgeable",
+      "style": "methodical",
+      "formality": "professional",
+      "empathy_level": "low"
+    },
+    "knowledge_base": {
+      "sources": [
+        {
+          "type": "url",
+          "content": "https://docs.software.com/troubleshooting",
+          "description": "Technical documentation"
+        },
+        {
+          "type": "document",
+          "content": "error_codes_database.pdf",
+          "description": "Complete error code reference"
+        },
+        {
+          "type": "direct_input",
+          "content": "System requirements: Windows 10+, 8GB RAM, 2GB storage",
+          "description": "Technical specifications"
+        }
+      ],
+      "categories": [
+        "Installation Issues",
+        "Performance Problems",
+        "Error Troubleshooting",
+        "Feature Configuration",
+        "Integration Support"
+      ]
+    },
+    "conversation_flows": {
+      "greeting": {
+        "message": "Hello! I'm TechSupport Pro. I'm here to help resolve any technical issues you're experiencing. Please describe the problem you're facing.",
+        "quick_replies": [
+          "Installation problem",
+          "Performance issue",
+          "Error message",
+          "Feature not working"
+        ]
+      },
+      "diagnostic_flow": {
+        "steps": [
+          "Gather system information",
+          "Reproduce the issue",
+          "Check error logs",
+          "Apply troubleshooting steps",
+          "Verify resolution"
+        ]
+      },
+      "escalation_criteria": {
+        "triggers": [
+          "Complex integration issues",
+          "Data corruption problems",
+          "Security vulnerabilities"
+        ],
+        "message": "This issue requires specialized attention. I'm creating a priority ticket and connecting you with our senior technical team."
+      }
+    },
+    "integrations": [
+      {
+        "type": "ticketing_system",
+        "purpose": "Issue tracking and escalation"
+      },
+      {
+        "type": "knowledge_base",
+        "purpose": "Real-time documentation access"
+      },
+      {
+        "type": "remote_assistance",
+        "purpose": "Screen sharing and control"
+      },
+      {
+        "type": "system_monitoring",
+        "purpose": "Real-time system status"
+      }
+    ],
+    "channels": [
+      {
+        "type": "web_chat",
+        "settings": {
+          "file_sharing": true,
+          "screen_sharing": true,
+          "code_formatting": true
+        }
+      },
+      {
+        "type": "discord",
+        "settings": {
+          "community_support": true,
+          "developer_channels": true
+        }
+      },
+      {
+        "type": "email",
+        "settings": {
+          "ticket_integration": true,
+          "attachment_support": true
+        }
+      }
+    ]
+  }
+}
+
